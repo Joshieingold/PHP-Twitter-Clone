@@ -26,9 +26,9 @@ function PassUserToSession(mysqli $dbRef, User $goodUser): void {
         return;
     }
     $fullUser = getUserFromUsername($dbRef, $goodUser->getScreenName());
-    $_SESSION["FIRST_NAME"] = $fullUser->getFirstName();
-    $_SESSION["LAST_NAME"] = $fullUser->getFirstName();
-    $_SESSION["MEMBER_ID"] = $fullUser->getId();
+    $_SESSION["SESS_FIRST_NAME"] = $fullUser->getFirstName();
+    $_SESSION["SESS_LAST_NAME"] = $fullUser->getLastName();
+    $_SESSION["SESS_MEMBER_ID"] = $fullUser->getId();
 }
 
 function getUserFromUsername(mysqli $dbRef, string $screenName): User {
