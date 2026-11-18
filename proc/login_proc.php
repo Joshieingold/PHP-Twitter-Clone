@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . "/../models/user.php"; // It wont work unless I do this..
 require_once __DIR__ . "/../connect.php"; // Hope this doesnt make it not work for you......
+require_once __DIR__ . "/../utils/ActionUtils.php";
 
 main();
 
@@ -13,11 +14,11 @@ function main(): void
     $username = $postedUser->getScreenName();
     $pass = $postedUser->getPassword();
     if (!validateAccount($con, $username, $pass )) {
-        redirectAndClose("login.php", "Incorrect Username or password");
+        ActionUtils::redirectAndClose("login.php", "Incorrect Username or password");
     }
     $_SESSION["success"] = true;
     PassUserToSession($con, $postedUser);
-    redirectAndClose("index.php");
+    ActionUtils::redirectAndClose("index.php");
 }
 
 function PassUserToSession(mysqli $dbRef, User $goodUser): void {
@@ -61,14 +62,14 @@ function getUserFromPost(): User
         $newUser->setPassword($_POST['password']);
         return $newUser;
     } catch (\Throwable $th) {
-        RedirectAndClose("login.php", "There was an error processing your submission: " . $th->getMessage());
+        ActionUtils::redirectAndClose("login.php", "There was an error processing your submission: " . $th->getMessage());
     }
 }
 
 function initialize(): void
 {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        redirectAndClose("login.php", "How did you get there?");
+        ActionUtils::redirectAndClose("login.php", "How did you get there?");
     }
     unset($_SESSION['success']);
 }
@@ -96,12 +97,3 @@ function validateAccount(mysqli $mysqli, string $name, string $unhashedPass): bo
     return false;
 }
 
-// Function Redirects user to the signup page and exits
-function redirectAndClose(string $location, string $message = ""): never
-{
-    if ($message !== "") {
-        $_SESSION["flash_error"] = $message;
-    }
-    header("Location: ../" . $location);
-    exit;
-}

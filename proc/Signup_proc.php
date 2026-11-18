@@ -7,6 +7,7 @@
 session_start();
 require_once __DIR__ . "/../models/user.php"; // It wont work unless I do this..
 require_once __DIR__ . "/../connect.php"; // Hope this doesnt make it not work for you......
+require_once __DIR__ . "/../utils/ActionUtils.php";
 
 main();
 
@@ -22,7 +23,7 @@ function main(): void
     // Upload the user to the db.
     sendUserToDb($con, $user);
     // Why do you have signup capitalized but not login??
-    RedirectAndClose("login.php");
+    ActionUtils::redirectAndClose("login.php");
     exit;
 }
 
@@ -32,10 +33,10 @@ function sendUserToDb(mysqli $dbRef, User $userToAdd): void
     // Verify they do not exist in the DB already.
     // Could also do this for email...
     if (IsScreenNameTaken($dbRef, $userToAdd->getScreenName())) {
-        RedirectAndClose("Signup.php", "That Screen Name is Taken");
+        ActionUtils::redirectAndClose("Signup.php", "That Screen Name is Taken");
     }
     if (!PasswordsAreSame($userToAdd)) {
-        RedirectAndClose("Signup.php", "Passwords must match");
+        ActionUtils::redirectAndClose("Signup.php", "Passwords must match");
     }
 
     // It makes me sad that url and description dont have defaults..
@@ -69,7 +70,7 @@ function sendUserToDb(mysqli $dbRef, User $userToAdd): void
     );
     if (!$stmt->execute()) {
         $stmt->close();
-        RedirectAndClose("Signup.php", "Account could not be created.");
+        ActionUtils::redirectAndClose("Signup.php", "Account could not be created.");
     }
     $stmt->close();
 }
@@ -98,7 +99,7 @@ function initialize(): void
 {
     // Make sure we arrived here via post.
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        RedirectAndClose("Signup.php", "How did you get there?");
+        ActionUtils::redirectAndClose("Signup.php", "How did you get there?");
     }
 }
 
@@ -120,16 +121,7 @@ function getUserFromPost(): User
         $newUser->setEmail($_POST["email"]);
         return $newUser;
     } catch (\Throwable $th) {
-        RedirectAndClose("Signup.php", "There was an error processing your submission: " . $th->getMessage());
+        ActionUtils::redirectAndClose("Signup.php", "There was an error processing your submission: " . $th->getMessage());
     }
-}
-// Function Redirects user to the signup page and exits
-function RedirectAndClose(string $location, string $message = ""): never
-{
-    if ($message !== "") {
-        $_SESSION["flash_error"] = $message;
-    }
-    header("Location: ../" . $location);
-    exit;
 }
 
