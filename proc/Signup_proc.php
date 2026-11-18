@@ -1,7 +1,12 @@
 <?php
+
 //insert the user's data into the users table of the DB
 //if everything is successful, redirect them to the login page.
 //if there is an error, redirect back to the signup page with a friendly message
+
+session_start();
+require_once __DIR__ . "/../models/user.php"; // It wont work unless I do this..
+require_once __DIR__ . "/../connect.php"; // Hope this doesnt make it not work for you......
 
 main();
 
@@ -9,14 +14,15 @@ main();
 // Function Covers the lifecycle of this service
 function main(): void
 {
-    //TODO:
-    $dbRef = "";
+    global $con;
     // Make sure all guard clauses are met.
     initialize();
     // Try to get User from the POST
     $user = getUserFromPost();
     // Upload the user to the db.
-    sendUserToDb($dbRef, $user);
+    sendUserToDb($con, $user);
+    // Why do you have signup capitalized but not login??
+    RedirectAndClose("login.php");
     exit;
 }
 
@@ -26,34 +32,46 @@ function sendUserToDb(mysqli $dbRef, User $userToAdd): void
     // Verify they do not exist in the DB already.
     // Could also do this for email...
     if (IsScreenNameTaken($dbRef, $userToAdd->getScreenName())) {
-        RedirectBack();
+        RedirectAndClose("Signup.php", "That Screen Name is Taken");
     }
     if (!PasswordsAreSame($userToAdd)) {
-        RedirectBack();
+        RedirectAndClose("Signup.php", "Passwords must match");
     }
-    
+
+    // It makes me sad that url and description dont have defaults..
     $query = "INSERT INTO `users`(
         `first_name`, `last_name`, `screen_name`, `password`, `address`,
-        `province`, `postal_code`, `contact_number`, `email`, `location`,)
-    VALUES( '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?')";
-    $passHash = password_hash($userToAdd->getPassword(), PASSWORD_DEFAULT);
+        `province`, `postal_code`, `contact_number`, `email`, `location`, `url`, `description`)
+    VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '', '')";
     $stmt = $dbRef->prepare($query);
-    // PHP Hates what I have done
-    // WHY DO YOU HATE PHP JOSH?!?
-    // CAUSE I JUST WANT TO USE THE PROPERTY VALUES ITS NOT 'REALLY' A METHOD
-    $stmt->bind_param("ssssssssss",
-        $userToAdd->getFirstName(),
-        $userToAdd->getLastName(),
-        $userToAdd->getScreenName(),
+    $firstName   = $userToAdd->getFirstName();
+    $lastName    = $userToAdd->getLastName();
+    $screenName  = $userToAdd->getScreenName();
+    $passHash = password_hash($userToAdd->getPassword(), PASSWORD_DEFAULT);
+    $address     = $userToAdd->getAddress();
+    $province    = $userToAdd->getProvince();
+    $postalCode  = $userToAdd->getPostalCode();
+    $phone       = $userToAdd->getPhone();
+    $email       = $userToAdd->getEmail();
+    $location    = $userToAdd->getLocation();
+    $stmt->bind_param(
+        "ssssssssss",
+        $firstName,
+        $lastName,
+        $screenName,
         $passHash,
-        $userToAdd->getAddress(),
-        $userToAdd->getProvince(),
-        $userToAdd->getPostalCode(),
-        $userToAdd->getPhone(),
-        $userToAdd->getEmail(),
-        $userToAdd->getLocation()
+        $address,
+        $province,
+        $postalCode,
+        $phone,
+        $email,
+        $location
     );
-
+    if (!$stmt->execute()) {
+        $stmt->close();
+        RedirectAndClose("Signup.php", "Account could not be created.");
+    }
+    $stmt->close();
 }
 
 // Function returns a boolean of if a screen name is taken or not.
@@ -70,7 +88,8 @@ function IsScreenNameTaken(mysqli $mysqli, string $name): bool
     $stmt->close();
     return $does_exit;
 }
-function PasswordsAreSame(User $user): bool {
+function PasswordsAreSame(User $user): bool
+{
     return $user->getPassword() === $user->getConfirmPassword();
 }
 
@@ -79,7 +98,7 @@ function initialize(): void
 {
     // Make sure we arrived here via post.
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        RedirectBack();
+        RedirectAndClose("Signup.php", "How did you get there?");
     }
 }
 
@@ -92,7 +111,7 @@ function getUserFromPost(): User
         $newUser->setLastName($_POST["lastName"]);
         $newUser->setScreenName($_POST["screenName"]);
         $newUser->setPassword($_POST["password"]);
-        $newUser->setConfirmPassword($_POST["confirmPassword"]);
+        $newUser->setConfirmPassword($_POST["confirmpassword"]);
         $newUser->setAddress($_POST["address"]);
         $newUser->setProvince($_POST["province"]);
         $newUser->setPostalCode($_POST["postalCode"]);
@@ -101,15 +120,16 @@ function getUserFromPost(): User
         $newUser->setEmail($_POST["email"]);
         return $newUser;
     } catch (\Throwable $th) {
-        RedirectBack();
-        // Should not get hit but php hates me if I dont put this.
-        return new User();
+        RedirectAndClose("Signup.php", "There was an error processing your submission: " . $th->getMessage());
     }
 }
 // Function Redirects user to the signup page and exits
-function RedirectBack(): void
+function RedirectAndClose(string $location, string $message = ""): never
 {
-    header("Location: ../Signup.php");
+    if ($message !== "") {
+        $_SESSION["flash_error"] = $message;
+    }
+    header("Location: ../" . $location);
     exit;
 }
 

@@ -1,20 +1,19 @@
 * {
     box-sizing: border-box;
-  }
-  
-  html, body {
+}
+
+html,
+body {
     margin: 0;
     padding: 0;
     font-family: system-ui, sans-serif;
     background-color: #000;
     color: #e7e9ea;
     height: 100%;
-  }
-  
-  
-  
-  /* Header at the top */
-  header {
+}
+
+/* Header at the top */
+header {
     background-color: #000;
     border-bottom: 1px solid #2f3336;
     padding: 1rem;
@@ -22,17 +21,17 @@
     align-items: center;
     justify-content: space-between; /* move items to edges */
     z-index: 10;
-  }
-  
-  /* Wrapper to hold sidebar + main content */
-  #wrapper {
+}
+
+/* Wrapper to hold sidebar + main content */
+#wrapper {
     display: flex;
     flex: 1;
     min-height: 0; /* prevents layout overflow */
-  }
-  
-  /* Sidebar on the left */
-  .sidebar {
+}
+
+/* Sidebar on the left */
+.sidebar {
     width: 250px;
     background-color: #000;
     border-right: 1px solid #2f3336;
@@ -40,21 +39,21 @@
     height: 100vh;
     position: sticky;
     top: 0;
-  }
-  
-  .sidebar nav a {
+}
+
+.sidebar nav a {
     display: block;
     color: #e7e9ea;
     text-decoration: none;
     padding: 0.75rem 0;
     font-size: 1.1rem;
-  }
-  
-  .sidebar nav a:hover {
+}
+
+.sidebar nav a:hover {
     color: #1d9bf0;
-  }
-  
-  /* Right sidebar styles */
+}
+
+/* Right sidebar styles */
 .rightbar {
     width: 300px;
     background-color: #000;
@@ -64,67 +63,67 @@
     top: 0;
     height: 100vh;
     color: #e7e9ea;
-  }
-  
-  .rightbar h5 {
+}
+
+.rightbar h5 {
     color: #1d9bf0;
     margin-top: 1rem;
-  }
-  
-  .rightbar ul {
+}
+
+.rightbar ul {
     list-style: none;
     padding-left: 0;
-  }
-  
-  .rightbar li {
+}
+
+.rightbar li {
     margin-bottom: 0.5rem;
-  }
-  /* Main content stay centered */
-  main {
+}
+/* Main content stay centered */
+main {
     flex: 1;
     padding: 1rem;
     background-color: #000;
     min-height: 100vh;
-  }
-  
-  /* Posts and text */
-  .post {
+}
+
+/* Posts and text */
+.post {
     background-color: #16181c;
     border: 1px solid #2f3336;
     padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1rem;
     color: #e7e9ea;
-  }
-  
-  .post span {
+}
+
+.post span {
     font-weight: bold;
     color: #1d9bf0;
-  }
-  
-  /* Branding & Profile pics */
-  #divLogo {
+}
+
+/* Branding & Profile pics */
+#divLogo {
     flex-shrink: 0;
-  }
-  .logo {
+}
+.logo {
     display: block;
     margin-left: 50px;
     height: 60px;
     border: yellow 2px solid;
-  }
-  .profile-container {
+}
+.profile-container {
     margin-left: auto; /* pushes profile pic to right */
     position: relative;
-  }
-  .profilepic {
+}
+.profilepic {
     height: 70px;
     border: 2px solid yellow;
     border-radius: 50%;
     cursor: pointer;
-  }
-  
-  /*for the placeholder in the modal popup*/
-  /* LOGIN PAGE STYLES */
+}
+
+/*for the placeholder in the modal popup*/
+/* LOGIN PAGE STYLES */
 body.login {
     background-color: #000;
     color: #e7e9ea;
@@ -132,81 +131,94 @@ body.login {
     align-items: center;
     justify-content: center;
     height: 100vh;
-  }
-  
-  .login-card {
+}
+
+.login-card {
     background-color: #16181c;
     padding: 2rem;
     border-radius: 12px;
     border: 1px solid #2f3336;
     width: 100%;
     max-width: 400px;
-  }
-  
-  .login-card h1 {
+}
+
+.login-card h1 {
     font-size: 1.8rem;
     color: #1d9bf0;
     margin-bottom: 1.5rem;
     text-align: center;
-  }
-  
-  .form-control::placeholder {
+}
+
+.form-control::placeholder {
     color: #888;
-  }
-  
-  .btn-login {
+}
+
+.btn-login {
     background-color: #1d9bf0;
     color: white;
     border: 1px solid #1d9bf0; /* adds visible border */
-    padding: 0.5rem 1.2rem;    /* spacing inside the button */
-    border-radius: 6px;        /* rounded corners */
+    padding: 0.5rem 1.2rem; /* spacing inside the button */
+    border-radius: 6px; /* rounded corners */
     font-size: 1rem;
-    cursor: pointer;           /* pointer cursor on hover */
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-  }
-  
-  .btn-login:hover {
+    cursor: pointer; /* pointer cursor on hover */
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.btn-login:hover {
     background-color: #1a8cd8;
     border-color: #1a8cd8;
-  }  
-  .loginlogo {
-    
+}
+.loginlogo {
     height: 60px;
     border: yellow 2px solid;
-  }
-  /****end login page styles*****/
+}
+/****end login page styles*****/
 
-  /*styles for signup page*/
-  body.signup {
+/*styles for signup page*/
+body.signup {
     background-color: #000;
     color: #e7e9ea;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 0.5rem;
     justify-content: center;
     min-height: 100vh;
-  }
+}
+.error-wrapper {
+    display: flex;
+    width: 35%;
+    background-color: darkred;
+    border-radius: 1rem;
+    border: 1px solid #2f3336;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
-  .signup-card {
+.signup-card {
     background-color: #16181c;
     padding: 2rem;
     border-radius: 12px;
     border: 1px solid #2f3336;
     width: 100%;
     max-width: 600px;
-  }
+}
 
-  .signup-card h1 {
+.signup-card h1 {
     font-size: 1.8rem;
     color: #1d9bf0;
     margin-bottom: 1.5rem;
     text-align: center;
-  }
+}
 
-  .form-control::placeholder {
+.form-control::placeholder {
     color: #888;
-  }
+}
 
-  .btn-signup {
+.btn-signup {
     background-color: #1d9bf0;
     color: white;
     border: 1px solid #1d9bf0;
@@ -215,55 +227,57 @@ body.login {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.2s ease;
-  }
+}
 
-  .btn-signup:hover {
+.btn-signup:hover {
     background-color: #1a8cd8;
-  }
+}
 
-  label {
+label {
     margin-top: 0.75rem;
-  }
-  .signup-header {
+}
+.signup-header {
     text-align: center;
     color: #e7e9ea;
     margin-top: 2rem;
     margin-bottom: 1rem;
-  }
-  
-  .signup-header img.loginlogo {
+}
+
+.signup-header img.loginlogo {
     vertical-align: middle;
     height: 40px;
-  }
-  
-  /****** end styles for sign up page *************/
+}
 
-  /*Styles for photo upload page*/
-  body.upload {
+/****** end styles for sign up page *************/
+
+/*Styles for photo upload page*/
+body.upload {
     padding-top: 3rem;
-  }
-  .upload-container {
+}
+.upload-container {
     max-width: 500px;
     margin: auto;
     background-color: #16181c;
     padding: 2rem;
     border-radius: 8px;
     border: 1px solid #2f3336;
-  }
-  h1 {
+}
+h1 {
     color: #1d9bf0;
     margin-bottom: 1rem;
     text-align: center;
-  }
-  label, .form-text {
+}
+label,
+.form-text {
     color: #ccc;
-  }
-  .btn-upload {
+}
+.btn-upload {
     background-color: #1d9bf0;
     color: white;
     border: none;
-  }
-  .btn-upload:hover {
+}
+.btn-upload:hover {
     background-color: #0d8ce0;
-  }
+}
+
 /***END STYLES FOR PHOTO UPLOAD PAGE ****/

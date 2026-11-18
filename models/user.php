@@ -14,7 +14,7 @@ class User
     private string $email;
 
     // empty constructor with meaning :^)
-    public function __construct() { }
+    public function __construct() {}
 
     /////////////////////////
     // Getters and Setters //
@@ -113,11 +113,10 @@ class User
             throw new InvalidArgumentException('Postal code cannot be Empty');
         }
         // Make sure it is a valid postal code via regex
-        $postalCodeRegex = "/[A-Z]\d[A-Z]-\d[A-Z]\d/";
-        if (!preg_match($postalCodeRegex, $trimmedPostalCode)) {
+        if (!preg_match('/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/', $trimmedPostalCode)) {
             throw new InvalidArgumentException('Invalid Postal Code format');
         }
-        $this->postalCode = $trimmedPostalCode;
+        $this->postalCode = strtoupper($trimmedPostalCode);
     }
     final public function getLocation(): string
     {
@@ -144,7 +143,7 @@ class User
             throw new InvalidArgumentException("Phone cannot be Empty");
         }
         // Make sure it matches regex
-        $phoneRegex = "/^\d-\d{3}-\d{3}-\d{4}/";
+        $phoneRegex = "/^\+?\d{7,15}$/";
         if (!preg_match($phoneRegex, $trimmedPhone)) {
             throw new InvalidArgumentException("Invalid Phone Format");
         }
@@ -161,9 +160,8 @@ class User
         if ($trimmedEmail === '') {
             throw new InvalidArgumentException("Email cannot be empty");
         }
-        // Make sure it matches regex
-        $emailRegex = "/^\S+@\w+.\w+$/";
-        if (!preg_match($emailRegex, $trimmedEmail)) {
+        // Make sure it is an email 
+        if (!filter_var($trimmedEmail, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Invalid Email Format");
         }
         $this->email = $trimmedEmail;
