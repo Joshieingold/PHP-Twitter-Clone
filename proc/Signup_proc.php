@@ -84,9 +84,9 @@ function IsScreenNameTaken(mysqli $mysqli, string $name): bool
     $stmt->bind_param("s", $name);
     $stmt->execute();
     $result = $stmt->get_result();
-    $does_exit = $result->num_rows > 0;
+    $does_exist = $result->num_rows > 0;
     $stmt->close();
-    return $does_exit;
+    return $does_exist;
 }
 function PasswordsAreSame(User $user): bool
 {

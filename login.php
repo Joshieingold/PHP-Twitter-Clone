@@ -1,3 +1,8 @@
+<?php
+session_start();
+$error = $_SESSION["flash_error"] ?? "";
+unset($_SESSION["flash_error"]);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +16,10 @@
   
 </head>
 <body class="login">
+    <?php if ($error !== ""): ?>
+        <span class="error-wrapper"><?= htmlspecialchars($error) ?></span>
+    <?php endif; ?>
   <div class="login-card">
-  
     <h1>Log in to&nbsp;<img alt="Y Logo" src="img/y_logo.png" class="loginlogo"></h1>
     
     <form action="proc/login_proc.php" method="POST">

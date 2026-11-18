@@ -12,6 +12,7 @@ class User
     private string $location;
     private string $phone;
     private string $email;
+    private int $id;
 
     // empty constructor with meaning :^)
     public function __construct() {}
@@ -20,6 +21,12 @@ class User
     // Getters and Setters //
     /////////////////////////
 
+    final public function getId(): string {
+        return $this->id;
+    }
+    public function setId(int $value): void {
+        $this->id = $value;
+    }
     final public function getFirstName(): string
     {
         return $this->firstName;
