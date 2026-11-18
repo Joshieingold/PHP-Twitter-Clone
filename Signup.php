@@ -7,7 +7,7 @@
   <title>Sign Up - Y</title>
   <link href="includes/y.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="icon" href="favicon.ico">
+  <link rel="icon" href="favicon.ico" type="image">
   
   
 </head>
