@@ -1,4 +1,5 @@
 <?php
+// Used for showing the errors.
 session_start();
 $error = $_SESSION["flash_error"] ?? "";
 unset($_SESSION["flash_error"]);
