@@ -1,8 +1,12 @@
 <?php
 session_start();
+
+if (!isset($_SESSION["SESS_MEMBER_ID"])) {
+    header("Location: login.php");
+    exit;
+}
 $firstName = $_SESSION["SESS_FIRST_NAME"]  ?? "";
 $lastName = $_SESSION["SESS_LAST_NAME"]  ?? "";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,13 +76,13 @@ $lastName = $_SESSION["SESS_LAST_NAME"]  ?? "";
                     New Post
                 </a>
             </nav>
+            <?php if ($firstName !== "" && $lastName !== ""): ?>
+                <span class="card mt-4 text-center"><?= $firstName . " " . $lastName ?></span>
+            <?php endif; ?>
         </aside>
 
         <main>
             <!--hardcoded placeholders for now -->
-            <?php if ($firstName !== "" && $lastName !== ""): ?>
-                <span class="error-wrapper"><?= $firstName . " " . $lastName ?></span>
-            <?php endif; ?>
 
             <div class="post">
                 <span>@parodyfan</span><br>

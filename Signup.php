@@ -1,7 +1,14 @@
 <?php
+// Used for showing the errors.
 session_start();
 $error = $_SESSION["flash_error"] ?? "";
 unset($_SESSION["flash_error"]);
+
+// Handle redirects
+if (isset($_SESSION["SESS_MEMBER_ID"])) {
+    header("Location: index.php");
+    exit;
+}
 ?>
 
 
