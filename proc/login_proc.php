@@ -23,7 +23,7 @@ function main(): void
     }
 
     // User is authorized
-    $_SESSION["success"] = true;
+    $_SESSION["SUCCESS"] = true;
     PassUserToSession($con, $postedUser);
     ActionUtils::redirectAndClose("index.php");
 }
@@ -36,7 +36,7 @@ function initializePage(): void
     }
     // If user is using this proceedure
     // We dont know if they have suceeded until the rest of the proceedure runs.
-    unset($_SESSION['success']);
+    unset($_SESSION['SUCCESS']);
 }
 
 /////////////
@@ -45,7 +45,7 @@ function initializePage(): void
 
 function PassUserToSession(mysqli $dbRef, User $goodUser): void {
     // THIS SHOULD NOT BE HIT
-    if (!isset($_SESSION["success"]) || $_SESSION['success'] == false) {
+    if (!isset($_SESSION["SUCCESS"]) || $_SESSION['SUCCESS'] == false) {
         return;
     }
     $fullUser = getUserFromUsername($dbRef, $goodUser->getScreenName());

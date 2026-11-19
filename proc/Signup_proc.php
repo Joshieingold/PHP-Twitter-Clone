@@ -16,6 +16,8 @@ function main(): void
     $user = getUserFromPost();
     // Upload the user to the db.
     sendUserToDb($con, $user);
+    // Create a success Message!
+    $_SESSION["flash_success"] = "Account Created, Please log in.";
     // Why do you have signup capitalized but not login??
     ActionUtils::redirectAndClose("login.php");
     exit;
@@ -98,11 +100,16 @@ function sendUserToDb(mysqli $dbRef, User $userToAdd): void
         $email,
         $location
     );
-    if (!$stmt->execute()) {
+    try {
+        if (!$stmt->execute()) {
+            $stmt->close();
+            ActionUtils::redirectAndClose("Signup.php", "Account could not be created.");
+        }
+        $stmt->close();
+    } catch (mysqli_sql_exception $sqlE) {
         $stmt->close();
         ActionUtils::redirectAndClose("Signup.php", "Account could not be created.");
     }
-    $stmt->close();
 }
 
 ////////////////
