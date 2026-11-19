@@ -51,7 +51,7 @@ if (isset($_SESSION["SESS_MEMBER_ID"])) {
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" class="form-control" required />
-            <label for="password">Confirm Password</label>
+            <label for="confirmpassword">Confirm Password</label>
             <input type="password" id="confirmpassword" name="confirmpassword" class="form-control" required />
 
             <label for="address">Address</label>

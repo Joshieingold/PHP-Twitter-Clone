@@ -21,10 +21,12 @@ class User
     // Getters and Setters //
     /////////////////////////
 
-    final public function getId(): string {
+    final public function getId(): string
+    {
         return $this->id;
     }
-    public function setId(int $value): void {
+    public function setId(int $value): void
+    {
         $this->id = $value;
     }
     final public function getFirstName(): string
@@ -91,9 +93,6 @@ class User
     public function setAddress(string $value): void
     {
         $trimmedAddress = trim($value);
-        if ($trimmedAddress === '') {
-            throw new InvalidArgumentException('Address cannot be Empty');
-        }
         $this->address = $trimmedAddress;
     }
     final public function getProvince(): string
@@ -114,16 +113,11 @@ class User
     }
     public function setPostalCode(string $value): void
     {
-        // Make sure its not empty
-        $trimmedPostalCode = trim($value);
-        if ($trimmedPostalCode === '') {
-            throw new InvalidArgumentException('Postal code cannot be Empty');
-        }
-        // Make sure it is a valid postal code via regex
-        if (!preg_match('/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/', $trimmedPostalCode)) {
+        $postalTrim = trim($value);
+        if ($postalTrim !== '' && !preg_match('/^[A-Za-z0-9\s\-]{3,7}$/', $postalTrim)) {
             throw new InvalidArgumentException('Invalid Postal Code format');
         }
-        $this->postalCode = strtoupper($trimmedPostalCode);
+        $this->postalCode = strtoupper($postalTrim);
     }
     final public function getLocation(): string
     {
@@ -144,17 +138,11 @@ class User
     }
     public function setPhone(string $value): void
     {
-        // Make sure it is not empty
-        $trimmedPhone = trim($value);
-        if ($trimmedPhone === '') {
-            throw new InvalidArgumentException("Phone cannot be Empty");
+        $phoneTrim = preg_replace('/[\s\-().]/', '', trim($value));
+        if ($phoneTrim !== '' && !preg_match('/^\+?\d{7,15}$/', $phoneTrim)) {
+            throw new InvalidArgumentException('Invalid Phone Format');
         }
-        // Make sure it matches regex
-        $phoneRegex = "/^\+?\d{7,15}$/";
-        if (!preg_match($phoneRegex, $trimmedPhone)) {
-            throw new InvalidArgumentException("Invalid Phone Format");
-        }
-        $this->phone = $trimmedPhone;
+        $this->phone = $phoneTrim;
     }
     final public function getEmail(): string
     {

@@ -1,15 +1,10 @@
 <?php
-session_start();
 
+session_start();
 main();
 
 function main(): void
 {
-    if (!isset($_SESSION["SUCCESS"])) {
-        clearSession();
-        // I cant use my helper :(
-        header("Location: login.php");
-    }
     clearSession();
     header("Location: login.php");
 }

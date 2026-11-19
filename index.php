@@ -77,7 +77,7 @@ $lastName = $_SESSION["SESS_LAST_NAME"]  ?? "";
                 </a>
             </nav>
             <?php if ($firstName !== "" && $lastName !== ""): ?>
-                <span class="card mt-4 text-center"><?= $firstName . " " . $lastName ?></span>
+                <span class="card mt-4 text-center"><?= htmlspecialchars($firstName . " " . $lastName) ?></span>
             <?php endif; ?>
         </aside>
 
